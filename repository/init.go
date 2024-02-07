@@ -66,7 +66,12 @@ func InitializeDatabase() (*sql.DB, error) {
 	statement.Exec()
 
 	query = "CREATE TABLE IF NOT EXISTS delivery (id INTEGER PRIMARY KEY AUTOINCREMENT,order_id INTEGER NOT NULL,delivey_user_id INTEGER NOT NULL,start_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,end_at TIMESTAMP ,status VARCHAR(50))"
-
+	statement, err = database.Prepare(query)
+	if err != nil {
+		fmt.Println("error occured in creation of  delivery table: " + err.Error())
+		return database, err
+	}
+	statement.Exec()
 	return database, nil
 }
 
